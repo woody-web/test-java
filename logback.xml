@@ -8,7 +8,6 @@
   <!--定义日志文件的存储地址和前缀名-->
   <property name="LOG_HOME" value="/data/tsf_default/logs" />
   <property name="LOG_PREFIX" value="${springAppName}" />
-  <property name="HOST_NAME" value="${HOSTNAME}" />
   <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
     <encoder>
       <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
@@ -75,10 +74,6 @@
       <Pattern>[%date] [%thread] [%level] [%ip] [%X{serviceName}] [%X{pGlobalTraceId}] [%X{pParentTraceId}] [%X{pLocalTraceId}] %msg%n</Pattern>
     </encoder>
   </appender>
-
-  <logger name="AOPLOG" level="INFO" additivity="false">
-    <appender-ref ref="AOPLOG" />
-  </logger>
 
   <logger name="TRACELOG" level="INFO" additivity="false">
     <appender-ref ref="TRACELOG" />
