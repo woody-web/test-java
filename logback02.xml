@@ -1,0 +1,122 @@
+Skip to content
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@woody-web 
+Learn Git and GitHub without any code!
+Using the Hello World guide, you’ll start a branch, write comments, and open a pull request.
+
+
+woody-web
+/
+test-java
+1
+00
+Code
+Issues
+Pull requests
+Actions
+Projects
+Wiki
+Security
+Insights
+Settings
+test-java/logback01.xml
+@woody-web
+woody-web Create logback01.xml
+Latest commit 302fa04 3 hours ago
+ History
+ 1 contributor
+94 lines (87 sloc)  4.25 KB
+  
+<?xml version="1.0"?>
+<!DOCTYPE xml>
+<!-- Logback configuration. See http://logback.qos.ch/manual/index.html -->
+<configuration scan="true" scanPeriod="10 seconds">
+  <!--获取应用IP -->
+  <conversionRule conversionWord="ip" converterClass="pdfc.framework.aop.log.util.LogIP" />
+  <springProperty scope="context" name="springAppName" source="spring.application.name"/>
+  <!--定义日志文件的存储地址和前缀名-->
+  <property name="LOG_HOME" value="/data/tsf_default/logs" />
+  <property name="LOG_PREFIX" value="${springAppName}" />
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+      <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%ip] [%X{serviceName}] [%logger{50}] [%X{pGlobalTraceId}] [%X{pParentTraceId}] [%X{pLocalTraceId}]
+        %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- 一般信息按照每天生成日志文件 -->
+  <appender name="FILE_LOG"
+    class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <File>${LOG_HOME}/${LOG_PREFIX}-${HOST_NAME}-info.log</File>
+    <rollingPolicy
+      class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+      <!-- 每天一归档 -->
+      <fileNamePattern>${LOG_HOME}/${LOG_PREFIX}-${HOST_NAME}-info-%d{yyyyMMdd}.log.%i
+      </fileNamePattern>
+      <!-- 单个日志文件最多50MB, 30天的日志周期，最大不能超过500MB -->
+      <maxFileSize>100MB</maxFileSize>
+      <maxHistory>20</maxHistory>
+      <totalSizeCap>2000MB</totalSizeCap>
+    </rollingPolicy>
+    <encoder>
+      <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+      <Pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%ip] [%X{serviceName}] [%logger{50}] [%X{pGlobalTraceId}] [%X{pParentTraceId}] [%X{pLocalTraceId}]
+        %msg%n</Pattern>
+    </encoder>
+  </appender>
+
+  <!-- aop日志 -->
+  <appender name="TRACELOG"
+    class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <File>${LOG_HOME}/${LOG_PREFIX}-${HOST_NAME}-tracelog.log</File>
+    <rollingPolicy
+      class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+      <!-- 每天一归档 -->
+      <fileNamePattern>${LOG_HOME}/${LOG_PREFIX}-${HOST_NAME}-tracelog-%d{yyyyMMdd}.log.%i
+      </fileNamePattern>
+      <!-- 单个日志文件最多50MB, 30天的日志周期，最大不能超过500MB -->
+      <maxFileSize>50MB</maxFileSize>
+      <maxHistory>30</maxHistory>
+      <totalSizeCap>500MB</totalSizeCap>
+    </rollingPolicy>
+    <encoder>
+      <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+      <Pattern>[%date] [%thread] [%level] [%ip] [%X{serviceName}] [%X{pGlobalTraceId}] [%X{pParentTraceId}] [%X{pLocalTraceId}] %msg%n</Pattern>
+    </encoder>
+  </appender>
+
+  <logger name="AOPLOG" level="INFO" additivity="false">
+    <appender-ref ref="AOPLOG" />
+  </logger>
+
+  <logger name="TRACELOG" level="INFO" additivity="false">
+    <appender-ref ref="TRACELOG" />
+  </logger>
+
+
+  <root level="INFO">
+    <appender-ref ref="STDOUT" />
+    <appender-ref ref="FILE_LOG" />
+  </root>
+
+  <jmxConfigurator />
+</configuration>
+© 2020 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
