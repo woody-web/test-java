@@ -1,38 +1,4 @@
-Skip to content
-Search or jump to…
 
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@woody-web 
-Learn Git and GitHub without any code!
-Using the Hello World guide, you’ll start a branch, write comments, and open a pull request.
-
-
-woody-web
-/
-test-java
-1
-00
-Code
-Issues
-Pull requests
-Actions
-Projects
-Wiki
-Security
-Insights
-Settings
-test-java/logback01.xml
-@woody-web
-woody-web Create logback01.xml
-Latest commit 302fa04 3 hours ago
- History
- 1 contributor
-94 lines (87 sloc)  4.25 KB
-  
 <?xml version="1.0"?>
 <!DOCTYPE xml>
 <!-- Logback configuration. See http://logback.qos.ch/manual/index.html -->
