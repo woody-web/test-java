@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 
--<configuration scanPeriod="10 seconds" scan="true">
+<configuration scanPeriod="10 seconds" scan="true">
 
 <!--获取微服务托管信息 如【DESKTOP-DV52DQ8/169.254.123.105】-->
 
@@ -39,10 +39,10 @@
 
 
 
--<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 
 
--<encoder>
+<encoder>
 
 <!--格式化输出：[日志输出时间戳] [线程名] [日志级别] [微服务托管主机名/IP] [微服务名称] [%logger{50}] [全局ID] [父ID] [本地ID] msg在程序中的输出 -->
 
@@ -57,12 +57,12 @@
 
 
 
--<appender name="AOPLOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+<appender name="AOPLOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
 
 <File>${LOG_HOME}/${LOG_PREFIX}-${HOST_NAME}-aoplog.log</File>
 
 
--<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
 
 <!-- 每天一归档 -->
 
@@ -81,7 +81,7 @@
 </rollingPolicy>
 
 
--<encoder>
+<encoder>
 
 <!--格式化输出：[日志输出时间戳] [线程名] [日志级别] [微服务托管主机名/IP] msg在代码中定义的字段:[微服务IP及端口] [微服务名称] [操作用户] [方法URL] [业务含义] [方法耗时] [处理开始时间戳] [客户端IP] [全局ID] [父ID] [本地ID] -->
 
@@ -96,12 +96,12 @@
 
 
 
--<appender name="TRACELOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+<appender name="TRACELOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
 
 <File>${LOG_HOME}/${LOG_PREFIX}-${HOST_NAME}-tracelog.log</File>
 
 
--<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
 
 <!-- 每天一归档 -->
 
@@ -120,7 +120,7 @@
 </rollingPolicy>
 
 
--<encoder>
+<encoder>
 
 <!--格式化输出：[日志输出时间戳] [线程名] [日志级别] [微服务托管主机名/IP][微服务编号] [全局ID] [父ID] [本地ID] msg在代码中定义的字段: trace信息 -->
 
@@ -135,12 +135,12 @@
 
 
 
--<appender name="BUSINESS" class="ch.qos.logback.core.rolling.RollingFileAppender">
+<appender name="BUSINESS" class="ch.qos.logback.core.rolling.RollingFileAppender">
 
 <File>${LOG_HOME}/${LOG_PREFIX}-${HOST_NAME}-business.log</File>
 
 
--<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
 
 <!-- 每天一归档 -->
 
@@ -159,7 +159,7 @@
 </rollingPolicy>
 
 
--<encoder>
+<encoder>
 
 <!--格式化输出：[日志输出时间戳] [全局ID] [父ID] [本地ID] [线程名] [日志级别] [微服务托管主机名/IP] [微服务IP及端口] [微服务名] [处理开始时间戳] msg在代码中定义的字段：[方法名] [方法入参] [方法出参] [方法耗时] [自定义业务日志] -->
 
@@ -174,12 +174,12 @@
 
 
 
--<appender name="INTERFACE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+<appender name="INTERFACE" class="ch.qos.logback.core.rolling.RollingFileAppender">
 
 <File>${LOG_HOME}/${LOG_PREFIX}-${HOST_NAME}-interface.log</File>
 
 
--<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
 
 <!-- 每天一归档 -->
 
@@ -198,7 +198,7 @@
 </rollingPolicy>
 
 
--<encoder>
+<encoder>
 
 <!--格式化输出：[日志输出时间戳] [全局ID] [父ID] [本地ID] [线程名] [日志级别] [微服务托管主机名/IP] msg在代码中定义的字段：[微服务IP及端口] [提供方微服务名称或编号] [请求方微服务名称或编号] [客户端IP] [终端类型] [终端信息] [操作用户] [方法URL] [处理开始时间戳] [方法耗时] [执行状态] [方法入参] [请求报文] [返回报文及出参] -->
 
@@ -237,7 +237,7 @@
 </rollingPolicy>
 
 
--<encoder>
+<encoder>
 
 <!--格式化输出：[日志输出时间戳] [线程名] [日志级别] [微服务托管主机名/IP] msg在代码中定义的字段:[微服务IP及端口] [微服务名称] [方法名] [异常堆栈] [异常信息] [全局ID] [父ID] [本地ID] -->
 
@@ -255,7 +255,7 @@
 
 
 
--<appender name="ASYNC-BUSINESS" class="ch.qos.logback.classic.AsyncAppender">
+<appender name="ASYNC-BUSINESS" class="ch.qos.logback.classic.AsyncAppender">
 
 <!--不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志-->
 
@@ -275,7 +275,7 @@
 </appender>
 
 
--<appender name="ASYNC-INTERFACE" class="ch.qos.logback.classic.AsyncAppender">
+<appender name="ASYNC-INTERFACE" class="ch.qos.logback.classic.AsyncAppender">
 
 <discardingThreshold>0</discardingThreshold>
 
@@ -286,7 +286,7 @@
 </appender>
 
 
--<appender name="ASYNC-ERROR" class="ch.qos.logback.classic.AsyncAppender">
+<appender name="ASYNC-ERROR" class="ch.qos.logback.classic.AsyncAppender">
 
 <discardingThreshold>0</discardingThreshold>
 
@@ -297,7 +297,7 @@
 </appender>
 
 
--<appender name="ASYNC-TRACELOG" class="ch.qos.logback.classic.AsyncAppender">
+<appender name="ASYNC-TRACELOG" class="ch.qos.logback.classic.AsyncAppender">
 
 <discardingThreshold>0</discardingThreshold>
 
@@ -315,14 +315,14 @@
 </logger>
 
 
--<logger name="BUSINESS" additivity="false" level="INFO">
+<logger name="BUSINESS" additivity="false" level="INFO">
 
 <appender-ref ref="ASYNC-BUSINESS"/>
 
 </logger>
 
 
--<logger name="INTERFACE" additivity="false" level="INFO">
+<logger name="INTERFACE" additivity="false" level="INFO">
 
 <appender-ref ref="ASYNC-INTERFACE"/>
 
@@ -336,14 +336,14 @@
 </logger>
 
 
--<logger name="TRACELOG" additivity="false" level="INFO">
+<logger name="TRACELOG" additivity="false" level="INFO">
 
 <appender-ref ref="ASYNC-TRACELOG"/>
 
 </logger>
 
 
--<root level="INFO">
+<root level="INFO">
 
 <appender-ref ref="STDOUT"/>
 
