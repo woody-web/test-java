@@ -1,0 +1,160 @@
+<configuration scan="true" scanPeriod="10 seconds">
+    <!--请注意：使用本配置文件必须要将pdfc框架版本升级到3.1.3及以上版本！！-->
+	<!--获取微服务托管信息 如【DESKTOP-DV52DQ8/169.254.123.105】-->
+	<conversionRule conversionWord="hostname_ip" converterClass="pdfc.framework.aop.log.util.LogIP" />
+	<!--获取微服务IP及端口 如【http://169.254.123.105:19010】-->
+	<conversionRule conversionWord="port" converterClass="pdfc.framework.aop.log.util.LogPort" />
+	<!--获取应用微服务编号 如【00001003】-->
+	<springProperty scope="context" name="springAppName" source="spring.application.name"/>
+
+    <!--定义日志文件的存储地址和前缀名-->
+	<!-- 定义podid变量-->
+	<property name="HOST_NAME" value="${HOSTNAME}"/>
+	<!-- 定义日志路径-->
+    <property name="LOG_HOME" value="/data/tsf_default/logs" />
+	<!-- 定义日志路径前缀-->
+    <property name="LOG_PREFIX" value="${springAppName}" />
+
+	<!-- 控制台日志输出定义-->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<!--格式化输出：[日志输出时间戳] [线程名] [日志级别] [微服务托管主机名/IP] [微服务名称] [%logger{50}] [全局ID] [父ID] [本地ID] msg在程序中的输出 -->
+			<pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%-5level] [%hostname_ip] [%X{serviceName}] [%logger{50}] [%X{pGlobalTraceId}] [%X{pParentTraceId}] [%X{pLocalTraceId}] [%msg]%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- aoplog日志 -->
+	<appender name="AOPLOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${LOG_HOME}/${LOG_PREFIX}-${HOST_NAME}-aoplog.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<!-- 每天一归档 -->
+			<fileNamePattern>${LOG_HOME}/${LOG_PREFIX}-${HOST_NAME}-aoplog-%d{yyyyMMdd}.log.%i</fileNamePattern>
+			<!-- 单个日志文件最多100MB, 7天的日志周期，最大不能超过500MB -->
+			<maxFileSize>100MB</maxFileSize>
+			<maxHistory>7</maxHistory>
+			<totalSizeCap>500MB</totalSizeCap>
+		</rollingPolicy>
+		<encoder>
+			<!--格式化输出：[日志输出时间戳] [线程名] [日志级别] [微服务托管主机名/IP] msg在代码中定义的字段:[微服务IP及端口] [微服务名称] [操作用户] [方法URL] [业务含义] [方法耗时] [处理开始时间戳] [客户端IP] [全局ID] [父ID] [本地ID] -->
+			<Pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%level] [%hostname_ip] %msg%n</Pattern>
+		</encoder>
+	</appender>
+
+	<!-- tracelog日志 -->
+	<appender name="TRACELOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${LOG_HOME}/${LOG_PREFIX}-${HOST_NAME}-tracelog.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<!-- 每天一归档 -->
+			<fileNamePattern>${LOG_HOME}/${LOG_PREFIX}-${HOST_NAME}-tracelog-%d{yyyyMMdd}.log.%i</fileNamePattern>
+			<!-- 单个日志文件最多100MB, 7天的日志周期，最大不能超过500MB -->
+			<maxFileSize>100MB</maxFileSize>
+			<maxHistory>7</maxHistory>
+			<totalSizeCap>500MB</totalSizeCap>
+		</rollingPolicy>
+		<encoder>
+			<!--格式化输出：[日志输出时间戳] [线程名] [日志级别] [微服务托管主机名/IP][微服务编号] [全局ID] [父ID] [本地ID] msg在代码中定义的字段: trace信息 -->
+			<Pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%level] [%hostname_ip] [%X{serviceName}] [%X{pGlobalTraceId}] [%X{pParentTraceId}] [%X{pLocalTraceId}] %msg%n</Pattern>
+		</encoder>
+	</appender>
+
+	<!-- business日志 -->
+	<appender name="BUSINESS" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${LOG_HOME}/${LOG_PREFIX}-${HOST_NAME}-business.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<!-- 每天一归档 -->
+			<fileNamePattern>${LOG_HOME}/${LOG_PREFIX}-${HOST_NAME}-business-%d{yyyyMMdd}.log.%i</fileNamePattern>
+			<!-- 单个日志文件最多100MB, 7天的日志周期，最大不能超过500MB -->
+			<maxFileSize>100MB</maxFileSize>
+			<maxHistory>7</maxHistory>
+			<totalSizeCap>500MB</totalSizeCap>
+		</rollingPolicy>
+		<encoder>
+			<!--格式化输出：[日志输出时间戳] [全局ID] [父ID] [本地ID] [线程名] [日志级别] [微服务托管主机名/IP] [微服务IP及端口] [微服务名] [处理开始时间戳]  msg在代码中定义的字段：[方法名] [方法入参] [方法出参] [方法耗时] [自定义业务日志] -->
+			<Pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%X{pGlobalTraceId}] [%X{pParentTraceId}] [%X{pLocalTraceId}] [%thread] [%level] [%hostname_ip] [%port] [%X{serviceName}] [%d{yyyy-MM-dd HH:mm:ss.SSS}] %msg%n</Pattern>
+		</encoder>
+	</appender>
+
+	<!-- interface日志 -->
+	<appender name="INTERFACE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${LOG_HOME}/${LOG_PREFIX}-${HOST_NAME}-interface.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<!-- 每天一归档 -->
+			<fileNamePattern>${LOG_HOME}/${LOG_PREFIX}-${HOST_NAME}-interface-%d{yyyyMMdd}.log.%i</fileNamePattern>
+			<!-- 单个日志文件最多100MB, 7天的日志周期，最大不能超过500MB -->
+			<maxFileSize>100MB</maxFileSize>
+			<maxHistory>7</maxHistory>
+			<totalSizeCap>500MB</totalSizeCap>
+		</rollingPolicy>
+		<encoder>
+			<!--格式化输出：[日志输出时间戳] [全局ID] [父ID] [本地ID] [线程名] [日志级别] [微服务托管主机名/IP] msg在代码中定义的字段：[微服务IP及端口] [提供方微服务名称或编号] [请求方微服务名称或编号] [客户端IP] [终端类型] [终端信息] [操作用户] [方法URL] [处理开始时间戳] [方法耗时] [执行状态] [方法入参] [请求报文] [返回报文及出参] -->
+			<Pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%X{pGlobalTraceId}] [%X{pParentTraceId}] [%X{pLocalTraceId}] [%thread] [%level] [%hostname_ip] %msg%n</Pattern>
+		</encoder>
+	</appender>
+
+	<!-- error日志 说明：只捕获运行异常，不包括业务逻辑错误；如果项目组捕获运行异常并处理，该日志可能不输出-->
+	<appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${LOG_HOME}/${LOG_PREFIX}-${HOST_NAME}-error.log</File>
+		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<!-- 每天一归档 -->
+			<fileNamePattern>${LOG_HOME}/${LOG_PREFIX}-${HOST_NAME}-error-%d{yyyyMMdd}.log.%i</fileNamePattern>
+			<!-- 单个日志文件最多100MB, 7天的日志周期，最大不能超过500MB -->
+			<maxFileSize>100MB</maxFileSize>
+			<maxHistory>7</maxHistory>
+			<totalSizeCap>500MB</totalSizeCap>
+		</rollingPolicy>
+		<encoder>
+			<!--格式化输出：[日志输出时间戳] [线程名] [日志级别] [微服务托管主机名/IP] msg在代码中定义的字段:[微服务IP及端口] [微服务名称] [方法名] [异常堆栈] [异常信息] [全局ID] [父ID] [本地ID]  -->
+			<Pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%level] [%hostname_ip] %msg%n</Pattern>
+		</encoder>
+	</appender>
+    
+    <!--interface，business，error的日志配置-->
+	<!--异步打印日志，场景：日志比较多的情况下，并且对性能要求高-->
+	<appender name="ASYNC-BUSINESS" class="ch.qos.logback.classic.AsyncAppender">
+        <!--不丢失日志.默认的,如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志-->
+		<discardingThreshold>0</discardingThreshold>
+		<!--更改默认的队列的深度,该值会影响性能.默认值为256-->
+        <queueSize>256</queueSize>
+		<!--添加附加的appender,最多只能添加一个-->
+        <appender-ref ref="BUSINESS"/>
+	</appender>
+
+	<appender name="ASYNC-INTERFACE" class="ch.qos.logback.classic.AsyncAppender">
+		<discardingThreshold>0</discardingThreshold>
+		<queueSize>256</queueSize>
+		<appender-ref ref="INTERFACE"/>
+	</appender>
+
+	<appender name="ASYNC-ERROR" class="ch.qos.logback.classic.AsyncAppender">
+		<discardingThreshold>0</discardingThreshold>
+		<queueSize>256</queueSize>
+		<appender-ref ref="ERROR"/>
+	</appender>
+
+	<appender name="ASYNC-TRACELOG" class="ch.qos.logback.classic.AsyncAppender">
+		<discardingThreshold>0</discardingThreshold>
+		<queueSize>256</queueSize>
+		<appender-ref ref="TRACELOG"/>
+	</appender>
+
+	<logger name="AOPLOG" level="INFO" additivity="false">
+		<appender-ref ref="AOPLOG"  />
+	</logger>
+	<logger name="BUSINESS" level="INFO" additivity="false">
+		<appender-ref ref="ASYNC-BUSINESS" />
+	</logger>
+	<logger name="INTERFACE" level="INFO" additivity="false">
+		<appender-ref ref="ASYNC-INTERFACE" />
+	</logger>
+	<logger name="ERROR" level="ERROR" additivity="false">
+		<appender-ref ref="ASYNC-ERROR" />
+	</logger>
+	<logger name="TRACELOG" level="INFO" additivity="false">
+		<appender-ref ref="ASYNC-TRACELOG" />
+	</logger>
+
+	<root level="INFO">
+		<appender-ref ref="STDOUT" />
+	</root>
+
+</configuration>
