@@ -45,7 +45,7 @@
 		<File>${LOG_HOME}/${LOG_PREFIX}-${HOST_NAME}-tracelog.log</File>
 		<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
 			<!-- 每天一归档 -->
-			<fileNamePattern>${LOG_HOME}/${LOG_PREFIX}-${HOST_NAME}-tracelog-%d{yyyyMMdd}.log.%i</fileNamePattern>
+			<fileNamePattern>${sLOG_HOME}/${LOG_PREFIX}-${HOST_NAME}-tracelog-%d{yyyyMMdd}.log.%i</fileNamePattern>
 			<!-- 单个日志文件最多100MB, 7天的日志周期，最大不能超过500MB -->
 			<maxFileSize>100MB</maxFileSize>
 			<maxHistory>7</maxHistory>
