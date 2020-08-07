@@ -53,7 +53,7 @@
 		</rollingPolicy>
 		<encoder>
 			<!--格式化输出：[日志输出时间戳] [线程名] [日志级别] [微服务托管主机名/IP][微服务编号] [全局ID] [父ID] [本地ID] msg在代码中定义的字段: trace信息 -->
-			<Pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%level] [%hostname_ip] [%X{serviceName}] [%X{pGlobalTraceId}] [%X{pParentTraceId}] [%X{pLocalTraceId}] %msg%n</Pattern>
+			<Pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%thread] [%level] ] [%X{pParentTraceId}] [%X{pLocalTraceId}] %msg%n</Pattern>
 		</encoder>
 	</appender>
 
